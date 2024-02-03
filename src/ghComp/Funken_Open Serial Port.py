@@ -5,7 +5,7 @@
 """
 Open a serial port and register avaialble Funken devices.
 -
-Provided by Funken 0.3
+Provided by Funken 0.3.4
     Args:
         
         PORT: Serial port to open.
@@ -18,13 +18,12 @@ Provided by Funken 0.3
 
 ghenv.Component.Name = "Funken_Open Serial Port"
 ghenv.Component.NickName = 'OpenPort'
-ghenv.Component.Message = 'VER 0.3.3'
+ghenv.Component.Message = 'VER 0.3.4'
 ghenv.Component.IconDisplayMode = ghenv.Component.IconDisplayMode.application
 ghenv.Component.Category = "Funken"
 ghenv.Component.SubCategory = "0 | Funken"
 try: ghenv.Component.AdditionalHelpFromDocStrings = "1"
 except: pass
-
 
 import sys
 import scriptcontext as sc
@@ -33,6 +32,7 @@ import time
 
 ## add Funken install directory to system path
 ghcompfolder = gh.Folders.DefaultAssemblyFolder
+
 fnk_path = ghcompfolder + "GhFunken"
 if fnk_path not in sys.path:
     sys.path.append(fnk_path)
@@ -42,11 +42,10 @@ except:
     msg = "Cannot import Funken. Is the funken.py module installed in " + fnk_path + "?"
     ghenv.Component.AddRuntimeMessage(gh.Kernel.GH_RuntimeMessageLevel.Error, msg)
 
-
 def main(ports, bauds, open, register, log):
     
     check_data = True
-    
+
     if len(ports) == 0:
         check_data = False
         msg = "No serial port provided."
@@ -67,13 +66,12 @@ def main(ports, bauds, open, register, log):
         register = False
     
     if check_data:
-        
-        if sc.sticky.has_key("pyFunken") == False:
+        if ("pyFunken" in sc.sticky) == False:
             sc.sticky['pyFunken'] = funken.PyFunken([],[])
-        
+            
         if open:
             log = ""
-            for i in xrange(len(ports)):
+            for i in range(len(ports)):
                 if ports[i] is not None:
                     baud = None
                     if len(bauds) == 1:
@@ -101,16 +99,16 @@ def main(ports, bauds, open, register, log):
                         log = log + "No Funken device available\n"
                 
                 except:
-                    log = log + str(port) + ":\n" + "Could not open the serial port\n"
+                    log = log + str(port) + ":\n" + "Could not open the serial port \n"
                     
                 log = log + "---\n"
     
     ## test if available serial ports are still active
-    if sc.sticky.has_key("pyFunken"):
+    if "pyFunken" in sc.sticky:
         
         ## remove port names if no longer in use
         for port in sc.sticky['pyFunken'].com_ports:
-            if sc.sticky['pyFunken'].ser_conn.has_key(port) == False:
+            if (port in sc.sticky['pyFunken'].ser_conn) == False:
                 sc.sticky['pyFunken'].com_ports =  filter(lambda a: a != port, sc.sticky['pyFunken'].com_ports)
         
         ## remove serial connections if no longer available
@@ -128,7 +126,6 @@ def main(ports, bauds, open, register, log):
             sc.sticky['pyFunken'].ser_conn.pop(key)
     
     return log
-
 
 if 'logger' not in globals():
     logger = ""

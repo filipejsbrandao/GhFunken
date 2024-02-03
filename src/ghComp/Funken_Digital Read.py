@@ -5,7 +5,7 @@
 """
 Read a digital input pin (mirrors the Arduino digitalRead method).
 -
-Provided by Funken 0.3
+Provided by Funken 0.3.4
     Args:
         PIN: The number of the pin from which to read.
         GET: True to read data.
@@ -17,10 +17,11 @@ Provided by Funken 0.3
         _PORT: Serial port where the message was sent (for daisy-chaining). 
         _ID: Device ID (for daisy-chaining). 
 """
-
+ghenv.Component
 ghenv.Component.Name = "Funken_Digital Read"
+ghenv.Component.Description = "Read a digital input pin (mirrors the Arduino digitalRead method)"
 ghenv.Component.NickName = 'DigitalRead'
-ghenv.Component.Message = 'VER 0.3.3'
+ghenv.Component.Message = 'VER 0.3.4'
 ghenv.Component.IconDisplayMode = ghenv.Component.IconDisplayMode.application
 ghenv.Component.Category = "Funken"
 ghenv.Component.SubCategory = "1 | Arduino"
@@ -31,8 +32,7 @@ import scriptcontext as sc
 import Grasshopper as gh
 import time
 
-def main(pin, get, port, id):
-    
+def main(pin, get, port, id_):
     if sc.sticky.has_key("pyFunken") == False:
         check_data = False
         msg = "No serial object available. Have you opened the serial port?"
@@ -56,24 +56,24 @@ def main(pin, get, port, id):
         else:
             port = sc.sticky["pyFunken"].com_ports[0]
     
-    if id is None:
+    if id_ is None:
         if len(sc.sticky['pyFunken'].ser_conn[port].devices_ids) == 0:
             msg = "No device available. Did you connect an Arduino-compatible device and registered it?"
             ghenv.Component.AddRuntimeMessage(gh.Kernel.GH_RuntimeMessageLevel.Warning, msg)
             return
         else:
-            id = sc.sticky['pyFunken'].ser_conn[port].devices_ids[0]
+            id_ = sc.sticky['pyFunken'].ser_conn[port].devices_ids[0]
     
     value = None
     comm = "DR " + str(pin) + "\n"
     if get:
-        response = sc.sticky['pyFunken'].get_response(comm, "DR", port, id)
+        response = sc.sticky['pyFunken'].get_response(comm, "DR", port, id_)
         try:
             value = int(response.split(" ")[1])
         except:
             value = -1
         
-    return value, comm, port, id
+    return value, comm, port, id_
 
 result = main(PIN, GET, PORT, ID)
 

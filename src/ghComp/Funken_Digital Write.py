@@ -5,7 +5,7 @@
 """
 Write a digital value on a pin (mirrors the Arduino digitalWrite method).
 -
-Provided by Funken 0.3
+Provided by Funken 0.3.4
     Args:
         PIN: The number of the pin where to write.
         VAL: The value to write. It can be either 0 (LOW) or 1 (HIGH).
@@ -20,7 +20,7 @@ Provided by Funken 0.3
 
 ghenv.Component.Name = "Funken_Digital Write"
 ghenv.Component.NickName = 'DigitalWrite'
-ghenv.Component.Message = 'VER 0.3.3'
+ghenv.Component.Message = 'VER 0.3.4'
 ghenv.Component.IconDisplayMode = ghenv.Component.IconDisplayMode.application
 ghenv.Component.Category = "Funken"
 ghenv.Component.SubCategory = "1 | Arduino"
@@ -31,7 +31,7 @@ import scriptcontext as sc
 import Grasshopper as gh
 import time
 
-def main(pin, value, set, port, id):
+def main(pin, value, set, port, id_):
     
     if sc.sticky.has_key("pyFunken") == False:
         check_data = False
@@ -59,19 +59,19 @@ def main(pin, value, set, port, id):
         else:
             port = sc.sticky["pyFunken"].com_ports[0]
     
-    if id is None:
+    if id_ is None:
         if len(sc.sticky['pyFunken'].ser_conn[port].devices_ids) == 0:
             msg = "No device available. Did you connect an Arduino-compatible device and registered it?"
             ghenv.Component.AddRuntimeMessage(gh.Kernel.GH_RuntimeMessageLevel.Warning, msg)
             return
         else:
-            id = sc.sticky['pyFunken'].ser_conn[port].devices_ids[0]
+            id_ = sc.sticky['pyFunken'].ser_conn[port].devices_ids[0]
     
     comm = "DW " + str(PIN) + " " + str(value) + "\n"
     if set:
-        sc.sticky['pyFunken'].send_command(comm, port, id)
+        sc.sticky['pyFunken'].send_command(comm, port, id_)
     
-    return comm, port, id
+    return comm, port, id_
 
 result = main(PIN, VAL, SET, PORT, ID)
 

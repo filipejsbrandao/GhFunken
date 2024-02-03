@@ -1,25 +1,18 @@
 GhFunken relies on PySerial - https://pythonhosted.org/pyserial/
 BSD license, (C) 2001-2017 Chris Liechti <cliechti@gmx.net>
 
------STEP#01 - GhPython Installation (ONLY for Rhino 5) -----
-1 - If you do not have GhPython installed, download it from Food4Rhino: www.food4rhino.com/app/ghpython
-2 - Copy the .gha file in the Grasshopper libraries folder (File -> Special folders -> Libraries)
-3 - Right click on the copied file, go to properties and make sure the file is not blocked.
-4 - Reload Grasshopper and under Math/Scripts you should have a new Python component.
------
+IMPORTANT NOTE: This version of Funken is only compatible with Rhino8. If you are using or need compatibility with a previous version of Rhino
+please check the original Funken project available on github.
 
------STEP#02 - GhFunken Library -----
+-----STEP#01 - Funken Library -----
 1 - Unzip this folder
-2 - Copy the "GhFunken" folder to Grasshopper Components folder (File -> Special folders -> Components)
-3 - Restart Rhino
+2 - Copy the "GhFunken" folder to Grasshopper Components folder (File -> Special folders -> User Objects)
 -----
 
------STEP#03 - GhFunken User Objects -----
-1 - Copy the content (just the content not the whole folder) of the userObjects folder into Grasshopper user objects folder (File -> Special folders -> User Obejcts)
-2 - The Funken tab should appear in the Grasshopper toolbar
+-----STEP#02 - Funken User Objects -----
+1 - Copy the content of the userObjects folder into Grasshopper user objects folder (File -> Special folders -> User Objects)
+2 - Reload Grasshopper and the Funken tab should appear.
 -----
-
-For questions and problems: a.rossi.andrea@gmail.com
 
 
 

@@ -5,7 +5,7 @@
 """
 Send custom Funken commands.
 -
-Provided by Funken 0.3
+Provided by Funken 0.3.4
     Args:
         TOKEN: Command identification token.
         VAL: Command parameters.
@@ -23,7 +23,7 @@ Provided by Funken 0.3
 
 ghenv.Component.Name = "Funken_CustomCommand"
 ghenv.Component.NickName = 'CustomComm'
-ghenv.Component.Message = 'VER 0.3.3'
+ghenv.Component.Message = 'VER 0.3.4'
 ghenv.Component.IconDisplayMode = ghenv.Component.IconDisplayMode.application
 ghenv.Component.Category = "Funken"
 ghenv.Component.SubCategory = "2 | Custom"
@@ -34,8 +34,12 @@ import scriptcontext as sc
 import Grasshopper as gh
 import time
 
-def main(token, values, return_data, send_data, port, id):
-    
+def main(token, values, return_data, send_data, port, id_):
+    if token is None:
+        msg = "Please provide a valid token"
+        ghenv.Component.AddRuntimeMessage(gh.Kernel.GH_RuntimeMessageLevel.Warning, msg)
+        return
+
     if sc.sticky.has_key("pyFunken") == False:
         check_data = False
         msg = "No serial object available. Have you opened the serial port?"
@@ -56,26 +60,27 @@ def main(token, values, return_data, send_data, port, id):
         else:
             port = sc.sticky["pyFunken"].com_ports[0]
     
-    if id is None:
+    if id_ is None:
         if len(sc.sticky['pyFunken'].ser_conn[port].devices_ids) == 0:
             msg = "No device available. Did you connect an Arduino-compatible device and registered it?"
             ghenv.Component.AddRuntimeMessage(gh.Kernel.GH_RuntimeMessageLevel.Warning, msg)
             return
         else:
-            id = sc.sticky['pyFunken'].ser_conn[port].devices_ids[0]
+            id_ = sc.sticky['pyFunken'].ser_conn[port].devices_ids[0]
     
     response = None
     comm = token
-    for v in values:
-        comm = comm + " " + str(v)
+    if values is not None:
+        for v in values:
+            comm = comm + " " + str(v)
     comm = comm + "\n"
     if send_data:
         if return_data:
-            response = sc.sticky['pyFunken'].get_response(comm, token, port, id)
+            response = sc.sticky['pyFunken'].get_response(comm, token, port, id_)
         else:
-            sc.sticky['pyFunken'].send_command(comm, port, id)
+            sc.sticky['pyFunken'].send_command(comm, port, id_)
     
-    return response, comm, port, id
+    return response, comm, port, id_
 
 
 result = main(TOKEN, VAL, RES, SEND, PORT, ID)

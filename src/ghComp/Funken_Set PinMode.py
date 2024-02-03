@@ -5,7 +5,7 @@
 """
 Set pin mode (mirrors the Arduino pinMode method).
 -
-Provided by Funken 0.3
+Provided by Funken 0.3.4
     Args:
         PIN: The number of the pin whose mode you wish to set.
         MODE: 0 for Input pins, 1 for Output pins.
@@ -20,7 +20,7 @@ Provided by Funken 0.3
 
 ghenv.Component.Name = "Funken_Set PinMode"
 ghenv.Component.NickName = 'PinMode'
-ghenv.Component.Message = 'VER 0.3.3'
+ghenv.Component.Message = 'VER 0.3.4'
 ghenv.Component.IconDisplayMode = ghenv.Component.IconDisplayMode.application
 ghenv.Component.Category = "Funken"
 ghenv.Component.SubCategory = "1 | Arduino"
@@ -30,7 +30,7 @@ except: pass
 import scriptcontext as sc
 import Grasshopper as gh
 
-def main(pin, mode, set, port, id):
+def main(pin, mode, set, port, id_):
     
     check_data = True
     
@@ -63,20 +63,20 @@ def main(pin, mode, set, port, id):
         else:
             port = sc.sticky["pyFunken"].com_ports[0]
     
-    if id is None:
+    if id_ is None:
         if len(sc.sticky['pyFunken'].ser_conn[port].devices_ids) == 0:
             msg = "No device available. Did you connect an Arduino-compatible device and registered it?"
             ghenv.Component.AddRuntimeMessage(gh.Kernel.GH_RuntimeMessageLevel.Warning, msg)
             return
         else:
-            id = sc.sticky['pyFunken'].ser_conn[port].devices_ids[0]
+            id_ = sc.sticky['pyFunken'].ser_conn[port].devices_ids[0]
     
     if check_data:
         comm = "PM " + str(pin) + " " + str(mode) + "\n"
         if set:
-            sc.sticky['pyFunken'].send_command(comm, port, id)
+            sc.sticky['pyFunken'].send_command(comm, port, id_)
         
-        return comm, port, id
+        return comm, port, id_
 
 result = main(PIN, MODE, SET, PORT, ID)
 

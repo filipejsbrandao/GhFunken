@@ -5,7 +5,7 @@
 """
 Scan for available serial ports.
 -
-Provided by Funken 0.3
+Provided by Funken 0.3.4
     Args:
         SCAN: True to scan for available serial ports.
     Returns:
@@ -14,7 +14,7 @@ Provided by Funken 0.3
 
 ghenv.Component.Name = "Funken_Scan Serial Ports"
 ghenv.Component.NickName = 'ScanPorts'
-ghenv.Component.Message = 'VER 0.3.3'
+ghenv.Component.Message = 'VER 0.3.4'
 ghenv.Component.IconDisplayMode = ghenv.Component.IconDisplayMode.application
 ghenv.Component.Category = "Funken"
 ghenv.Component.SubCategory = "0 | Funken"
@@ -71,4 +71,5 @@ if SCAN:
         except:
             msg = "Your operative system is currently not supported by Funken.\n You might try to write the name of the serial port manually to the OpenPort component."
             ghenv.Component.AddRuntimeMessage(gh.Kernel.GH_RuntimeMessageLevel.Error, msg)
+
 
