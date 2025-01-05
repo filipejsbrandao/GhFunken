@@ -33,7 +33,7 @@ def enumerate_serial_ports_win():
         existing on this computer.
     """
     
-    import _winreg as winreg
+    import winreg
     import itertools
     
     path = 'HARDWARE\\DEVICEMAP\\SERIALCOMM'
