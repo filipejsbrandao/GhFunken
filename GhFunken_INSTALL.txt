@@ -6,7 +6,7 @@ please check the original Funken project available on github.
 
 -----STEP#01 - Funken Library -----
 1 - Unzip this folder
-2 - Copy the "GhFunken" folder to Grasshopper Components folder (File -> Special folders -> User Objects)
+2 - Copy the "GhFunken" folder to Grasshopper Components folder (File -> Special folders -> Components)
 -----
 
 -----STEP#02 - Funken User Objects -----
